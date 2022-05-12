@@ -18,11 +18,13 @@ include { run_from_irods_tsv } from "${projectDir}/pipelines/run_from_irods_tsv.
 workflow {
 
     if (params.run_mode == "study_id") {
+		    log.info "Run mode : ${params.run_mode }"
 	imeta_study(Channel.from(params.study_id_mode.input_studies))
 	samples_irods_tsv = imeta_study.out.irods_samples_tsv
 	work_dir_to_remove = imeta_study.out.work_dir_to_remove }
     
     else if (params.run_mode == "csv_samples_id") {
+		log.info "Run mode : ${params.run_mode }"
 	i1 = Channel.fromPath(params.csv_samples_id_mode.input_samples_csv)
 	i2 = Channel.from(params.csv_samples_id_mode.input_samples_csv_column)
 	imeta_samples_csv(i1,i2)
@@ -30,6 +32,7 @@ workflow {
 	work_dir_to_remove = imeta_samples_csv.out.work_dir_to_remove }
     
     else if (params.run_mode == "google_spreadsheet") {
+		log.info "Run mode : ${params.run_mode }"
 	i1 = Channel.from(params.google_spreadsheet_mode.input_gsheet_name)
 	i2 = Channel.fromPath(params.google_spreadsheet_mode.input_google_creds)
 	i3 = Channel.from(params.google_spreadsheet_mode.output_csv_name)
@@ -52,6 +55,7 @@ workflow {
 		     storeDir:params.outdir)
 
     if (params.run_mode == "google_spreadsheet") {
+		log.info "Run mode : ${params.run_mode }"
 	// combine all samples tables (google spreadsheet, irods + cellranger metadata, cellranger /lustre file paths),
 	//   by joining on common sample column:
 	// the resulting combined tables can be fed directly as input to the Vireo deconvolution pipeline or QC pipeline.
