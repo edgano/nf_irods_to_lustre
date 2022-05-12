@@ -6,14 +6,14 @@ nextflow.enable.dsl=2
 // you have to edit+commit+push that "inputs.nf" file, then rerun the pipeline.
 
 // import modules that depend on input mode:
-include { imeta_study } from '../modules/imeta_study.nf'
-include { imeta_samples_csv } from '../modules/imeta_samples_csv.nf'
-include { gsheet_to_csv } from '../modules/gsheet_to_csv.nf'
+include { imeta_study } from "${projectDir}/modules/imeta_study.nf"
+include { imeta_samples_csv } from "${projectDir}/modules/imeta_samples_csv.nf"
+include { gsheet_to_csv } from "${projectDir}/modules/gsheet_to_csv.nf"
 // module specific to google_spreadsheet input mode:
-include { join_gsheet_metadata } from '../modules/join_gsheet_metadata.nf'
+include { join_gsheet_metadata } from "${projectDir}/modules/join_gsheet_metadata.nf"
 
 // include workflow common to all input modes:
-include { run_from_irods_tsv } from './run_from_irods_tsv.nf'
+include { run_from_irods_tsv } from "${projectDir}/pipelines/run_from_irods_tsv.nf"
 
 workflow {
 
